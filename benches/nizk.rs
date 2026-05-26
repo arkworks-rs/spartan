@@ -5,7 +5,6 @@ extern crate criterion;
 extern crate digest;
 extern crate libspartan;
 extern crate merlin;
-extern crate rand;
 extern crate sha3;
 
 use ark_bls12_381::G1Projective;

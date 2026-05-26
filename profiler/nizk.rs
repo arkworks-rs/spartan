@@ -3,7 +3,6 @@
 
 extern crate libspartan;
 extern crate merlin;
-extern crate rand;
 
 use ark_bls12_381::{Fr, G1Projective};
 use ark_serialize::CanonicalSerialize;
