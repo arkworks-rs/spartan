@@ -45,6 +45,7 @@ pub struct PolyCommitment<G: CurveGroup> {
   C: Vec<G>,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, CanonicalSerialize, CanonicalDeserialize)]
 pub struct ConstPolyCommitment<G: CurveGroup> {
   C: G,
@@ -120,7 +121,7 @@ impl IdentityPolynomial {
 impl<F: PrimeField> DensePolynomial<F> {
   pub fn new(Z: Vec<F>) -> Self {
     DensePolynomial {
-      num_vars: Z.len().log_2() as usize,
+      num_vars: Z.len().log_2(),
       len: Z.len(),
       Z,
     }
@@ -485,7 +486,7 @@ mod tests {
     let mut R: Vec<F> = Vec::new();
 
     let ell = r.len();
-    assert!(ell % 2 == 0); // ensure ell is even
+    assert!(ell.is_multiple_of(2)); // ensure ell is even
     let n = ell.pow2();
     let m = n.square_root();
 

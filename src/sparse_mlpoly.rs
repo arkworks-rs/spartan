@@ -98,10 +98,7 @@ impl<G: CurveGroup> DerefsEvalProof<G> {
     transcript: &mut Transcript,
     random_tape: &mut RandomTape<G>,
   ) -> PolyEvalProof<G> {
-    assert_eq!(
-      joint_poly.get_num_vars(),
-      r.len() + evals.len().log_2() as usize
-    );
+    assert_eq!(joint_poly.get_num_vars(), r.len() + evals.len().log_2());
 
     // append the claimed evaluations to transcript
     <Transcript as ProofTranscript<G>>::append_scalars(transcript, b"evals_ops_val", &evals);
@@ -111,7 +108,7 @@ impl<G: CurveGroup> DerefsEvalProof<G> {
       let challenges = <Transcript as ProofTranscript<G>>::challenge_vector(
         transcript,
         b"challenge_combine_n_to_one",
-        evals.len().log_2() as usize,
+        evals.len().log_2(),
       );
 
       let mut poly_evals = DensePolynomial::new(evals);
@@ -185,7 +182,7 @@ impl<G: CurveGroup> DerefsEvalProof<G> {
     let challenges = <Transcript as ProofTranscript<G>>::challenge_vector(
       transcript,
       b"challenge_combine_n_to_one",
-      evals.len().log_2() as usize,
+      evals.len().log_2(),
     );
     let mut poly_evals = DensePolynomial::new(evals);
     for i in (0..challenges.len()).rev() {
@@ -327,15 +324,15 @@ impl<G: CurveGroup> SparseMatPolyCommitmentGens<G> {
     num_nz_entries: usize,
     batch_size: usize,
   ) -> SparseMatPolyCommitmentGens<G> {
-    let num_vars_ops = num_nz_entries.next_power_of_two().log_2() as usize
-      + (batch_size * 5).next_power_of_two().log_2() as usize;
+    let num_vars_ops =
+      num_nz_entries.next_power_of_two().log_2() + (batch_size * 5).next_power_of_two().log_2();
     let num_vars_mem = if num_vars_x > num_vars_y {
       num_vars_x
     } else {
       num_vars_y
     } + 1;
-    let num_vars_derefs = num_nz_entries.next_power_of_two().log_2() as usize
-      + (batch_size * 2).next_power_of_two().log_2() as usize;
+    let num_vars_derefs =
+      num_nz_entries.next_power_of_two().log_2() + (batch_size * 2).next_power_of_two().log_2();
 
     let gens_ops = PolyCommitmentGens::new(num_vars_ops, label);
     let gens_mem = PolyCommitmentGens::new(num_vars_mem, label);
@@ -806,7 +803,7 @@ impl<G: CurveGroup> HashLayerProof<G> {
     let challenges_ops = <Transcript as ProofTranscript<G>>::challenge_vector(
       transcript,
       b"challenge_combine_n_to_one",
-      evals_ops.len().log_2() as usize,
+      evals_ops.len().log_2(),
     );
 
     let mut poly_evals_ops = DensePolynomial::new(evals_ops);
@@ -1020,7 +1017,7 @@ impl<G: CurveGroup> HashLayerProof<G> {
     let challenges_ops = <Transcript as ProofTranscript<G>>::challenge_vector(
       transcript,
       b"challenge_combine_n_to_one",
-      evals_ops.len().log_2() as usize,
+      evals_ops.len().log_2(),
     );
 
     let mut poly_evals_ops = DensePolynomial::new(evals_ops);
@@ -1818,8 +1815,8 @@ mod tests {
     let num_nz_entries: usize = 256;
     let num_rows: usize = 256;
     let num_cols: usize = 256;
-    let num_vars_x: usize = num_rows.log_2() as usize;
-    let num_vars_y: usize = num_cols.log_2() as usize;
+    let num_vars_x: usize = num_rows.log_2();
+    let num_vars_y: usize = num_cols.log_2();
 
     let mut M: Vec<SparseMatEntry<G::ScalarField>> = Vec::new();
 
